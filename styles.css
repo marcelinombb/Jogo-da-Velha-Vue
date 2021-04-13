@@ -1,0 +1,83 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: #132538;
+}
+
+.grid{
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-areas: "header header header"
+                         "left-menu campo right-menu"
+                         "left-menu middle-menu right-menu";
+}
+
+.container {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 10rem 10rem 10rem;
+    grid-template-rows: 10rem 10rem 10rem;
+    grid-area: campo;
+    gap: 5px;
+    justify-content: center;
+    align-content: center;
+}
+.header{
+    display: flex;
+    grid-area: header;
+    justify-content: center;
+}
+
+.header span{
+    font: 300 2rem Sans-Serif;
+    color: white;
+}
+
+.left-menu{
+    grid-area: left-menu;
+    display: flex;
+    justify-content: center;
+}
+.right-menu{
+    grid-area: right-menu;
+}
+
+.right-menu img{
+    border-radius: 50%;
+    background-color: white;
+    height: 6rem;
+    width: 6rem;
+}
+.middle-menu{
+    grid-area: middle-menu;
+}
+
+.middle-menu button{
+    border-radius: 0.8rem;
+    width: 5rem;
+    height: 4rem;
+    font: 300 1.2rem Ubuntu;
+}
+.container>div {
+    background-color: #41b883;
+}
+
+.win{
+    background-color: rgba(17, 238, 17, 0.829);
+}
+
+.div-center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+.div-center > img{
+    height: 5rem;
+    width: 5rem;
+}

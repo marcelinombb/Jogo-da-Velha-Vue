@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <title>## Velha Vue ##</title>
+</head>
+
+<body>
+    <div id="app">
+        <div class="grid">
+            <header class="header">
+                <span id="status"></span>
+            </header>
+            <aside class="left-menu">
+                <h1 style="color:white;">Vitorias</h1>
+                <br>
+                <ul>
+                    <li style="color:white;">X : {{JogoDaVelha.Vitorias[JogoDaVelha.X]}}</li>
+                    <li style="color:white;">O : {{JogoDaVelha.Vitorias[JogoDaVelha.O]}}</li>
+                </ul>
+            </aside>
+            <div class="container" id="campo">
+                <div v-for="(cell,index) in campo" :key="index" :id="index" @click="insereNoCampo(index)"
+                    class="div-center">
+                    <img :src="cell" v-if="cell">
+                </div>
+            </div>
+            <section class='middle-menu'>
+                <button @click="resetCampo">Reset</button>
+            </section>
+            <aside class="right-menu">
+                <h1 style="color:white;">Vencedor</h1>
+                <img :src="JogoDaVelha.winnerBox" id="winner" alt="">
+            </aside>
+        </div>
+    </div>
+
+    <script src="js/vue.js"></script>
+    <script>
+        const app = new Vue({
+            el: "#app",
+            data: {
+                campo: new Array(9).fill(''),
+                JogoDaVelha: {
+                    status: document.querySelector("#status"),
+                    idCampo: document.querySelector("#campo"),
+                    winnerBox: " ",
+                    gameover: false,
+                    X: "./iconmonstr-x-mark-1.svg",
+                    O: "./iconmonstr-circle-2.svg",
+                    Vitorias : {
+                        "./iconmonstr-x-mark-1.svg" : 0,
+                        "./iconmonstr-circle-2.svg" : 0
+                    },
+                    winCases: [
+                        [0, 1, 2],
+                        [3, 4, 5],
+                        [6, 7, 8],
+                        [0, 3, 6],
+                        [1, 4, 7],
+                        [2, 5, 8],
+                        [0, 4, 8],
+                        [2, 4, 6]
+                    ],
+                    vez: true,
+                    deuVelha: function () {
+                        if (!this.campo.includes(" ") && !this.winnig) {
+                            this.status.innerHTML = "Deu Velha";
+                        }
+                    },
+                }
+            },
+            methods: {
+                resetCampo() {
+                    this.campo = new Array(9).fill('');
+                    this.JogoDaVelha.gameover = false;
+                    this.JogoDaVelha.winnerBox = " ";
+                },
+                insereNoCampo: function (id) {
+                    if (this.campo[Number(id)] == "" && !this.JogoDaVelha.gameover) {
+                        let icon = this.iconVez();
+                        Vue.set(this.campo, Number(id), icon);
+                        this.checkWin(icon);
+                    }
+                },
+                iconVez: function () {
+                    let icon = this.JogoDaVelha.vez ? this.JogoDaVelha.X : this.JogoDaVelha.O;
+                    this.JogoDaVelha.vez = !this.JogoDaVelha.vez;
+                    return icon;
+                },
+                checkWin: function (icon) {
+                    this.JogoDaVelha.winCases.forEach(win => {
+                        let cont = 0;
+                        win.forEach(index => {
+                            if (this.campo[index] === icon) {
+                                cont++;
+                                if (cont == 3) {
+                                    this.JogoDaVelha.Vitorias[icon] += 1;
+                                    this.JogoDaVelha.winnerBox = icon;
+                                    this.JogoDaVelha.gameover = true;
+                                }
+                            }
+                        })
+                    })
+                    //this.deuVelha();
+                }
+            },
+            watch: {
+                campo() {
+
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
